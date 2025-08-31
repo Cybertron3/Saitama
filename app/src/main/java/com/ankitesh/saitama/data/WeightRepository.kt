@@ -61,4 +61,20 @@ class WeightRepository(private val weightDao: WeightDao) {
     fun getAllWeights(): Flow<List<WeightEntry>> {
         return weightDao.getAllWeights()
     }
+    
+    suspend fun deleteWeight(date: Date) {
+        // Normalize date to start of day
+        val calendar = Calendar.getInstance().apply {
+            time = date
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        
+        val entry = weightDao.getWeightForDate(calendar.time)
+        entry?.let {
+            weightDao.delete(it)
+        }
+    }
 }

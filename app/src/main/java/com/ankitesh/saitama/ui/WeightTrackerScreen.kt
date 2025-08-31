@@ -16,7 +16,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -229,6 +228,7 @@ fun WeightEntryDialog(
     onDismiss: () -> Unit
 ) {
     var weightText by remember { mutableStateOf("") }
+    var hasExistingWeight by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     
     LaunchedEffect(date) {
@@ -236,6 +236,7 @@ fun WeightEntryDialog(
             Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())
         )
         weightText = existingWeight?.let { String.format("%.2f", it) } ?: ""
+        hasExistingWeight = existingWeight != null
     }
     
     Dialog(onDismissRequest = onDismiss) {
@@ -280,29 +281,54 @@ fun WeightEntryDialog(
                 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    TextButton(onClick = onDismiss) {
-                        Text("Cancel")
-                    }
-                    
-                    Spacer(modifier = Modifier.width(8.dp))
-                    
-                    Button(
-                        onClick = {
-                            weightText.toDoubleOrNull()?.let { weight ->
+                    // Delete button on the left
+                    if (hasExistingWeight) {
+                        TextButton(
+                            onClick = {
                                 scope.launch {
-                                    viewModel.saveWeight(
-                                        Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                                        weight
+                                    viewModel.deleteWeight(
+                                        Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())
                                     )
                                     onDismiss()
                                 }
-                            }
-                        },
-                        enabled = weightText.isNotEmpty()
-                    ) {
-                        Text("Save")
+                            },
+                            colors = ButtonDefaults.textButtonColors(
+                                contentColor = MaterialTheme.colorScheme.error
+                            )
+                        ) {
+                            Text("Delete")
+                        }
+                    } else {
+                        // Empty space to maintain alignment
+                        Spacer(modifier = Modifier.width(1.dp))
+                    }
+                    
+                    // Cancel and Save buttons on the right
+                    Row {
+                        TextButton(onClick = onDismiss) {
+                            Text("Cancel")
+                        }
+                        
+                        Spacer(modifier = Modifier.width(8.dp))
+                        
+                        Button(
+                            onClick = {
+                                weightText.toDoubleOrNull()?.let { weight ->
+                                    scope.launch {
+                                        viewModel.saveWeight(
+                                            Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                            weight
+                                        )
+                                        onDismiss()
+                                    }
+                                }
+                            },
+                            enabled = weightText.isNotEmpty()
+                        ) {
+                            Text("Save")
+                        }
                     }
                 }
             }
