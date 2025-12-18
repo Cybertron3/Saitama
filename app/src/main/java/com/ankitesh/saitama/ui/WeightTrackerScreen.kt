@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -36,6 +37,7 @@ fun WeightTrackerScreen(
 ) {
     val averageWeight by viewModel.averageWeight.collectAsState()
     val allWeights by viewModel.allWeights.collectAsState()
+    val sixMonthWeights by viewModel.sixMonthWeights.collectAsState()
     
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
     var showDialog by remember { mutableStateOf(false) }
@@ -53,24 +55,21 @@ fun WeightTrackerScreen(
     )
     
     val isDarkTheme = isSystemInDarkTheme()
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
+    val isCompactScreen = screenHeight < 700.dp
     
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
+            .padding(horizontal = 16.dp, vertical = if (isCompactScreen) 8.dp else 12.dp),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
         // Average Weight Section
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 24.dp),
+                .weight(if (isCompactScreen) 0.22f else 0.25f),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer
             )
@@ -78,7 +77,7 @@ fun WeightTrackerScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(if (isCompactScreen) 16.dp else 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -113,27 +112,45 @@ fun WeightTrackerScreen(
             }
         }
         
-        // Month Navigation
-        Row(
+        Spacer(modifier = Modifier.height(if (isCompactScreen) 8.dp else 12.dp))
+        
+        // Weight Graph Section
+        WeightGraphCard(
+            weightData = sixMonthWeights,
+            modifier = Modifier.weight(if (isCompactScreen) 0.33f else 0.35f),
+            isCompact = isCompactScreen
+        )
+        
+        Spacer(modifier = Modifier.height(if (isCompactScreen) 8.dp else 12.dp))
+        
+        // Calendar Section with Navigation
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+                .weight(if (isCompactScreen) 0.45f else 0.4f)
         ) {
-            Text(
-                text = state.firstVisibleMonth.yearMonth.format(
-                    DateTimeFormatter.ofPattern("MMMM yyyy")
-                ),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Medium
-            )
-        }
-        
-        // Calendar
-        HorizontalCalendar(
-            state = state,
-            dayContent = { day ->
+            // Month Navigation
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = if (isCompactScreen) 4.dp else 8.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = state.firstVisibleMonth.yearMonth.format(
+                        DateTimeFormatter.ofPattern("MMMM yyyy")
+                    ),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+            
+            // Calendar
+            HorizontalCalendar(
+                state = state,
+                modifier = Modifier.fillMaxSize(),
+                dayContent = { day ->
                 Day(
                     day = day,
                     hasWeight = allWeights.containsKey(Date.from(day.date.atStartOfDay(ZoneId.systemDefault()).toInstant())),
@@ -146,9 +163,9 @@ fun WeightTrackerScreen(
                             showDialog = true
                         }
                     }
-                )
-            }
-        )
+                    )
+                }
+            )
         }
     }
     
@@ -176,8 +193,8 @@ fun Day(
     Box(
         modifier = Modifier
             .aspectRatio(1f)
-            .padding(2.dp)
-            .clip(RoundedCornerShape(8.dp))
+            .padding(1.dp)
+            .clip(RoundedCornerShape(6.dp))
             .background(
                 color = when {
                     isSelected -> MaterialTheme.colorScheme.primary
@@ -203,7 +220,7 @@ fun Day(
                     isSelected -> MaterialTheme.colorScheme.onPrimary
                     else -> MaterialTheme.colorScheme.onSurface
                 },
-                fontSize = 14.sp,
+                fontSize = 12.sp,
                 fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal
             )
             
@@ -211,7 +228,7 @@ fun Day(
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = "Weight recorded",
-                    modifier = Modifier.size(12.dp),
+                    modifier = Modifier.size(10.dp),
                     tint = if (isSelected) MaterialTheme.colorScheme.onPrimary 
                            else if (isDarkTheme) Color(0xFFFFB300) // Brighter yellow in dark mode
                            else Color(0xFFFF6F00)  // Orange accent in light mode

@@ -62,6 +62,20 @@ class WeightRepository(private val weightDao: WeightDao) {
         return weightDao.getAllWeights()
     }
     
+    fun getWeightsForLastSixMonths(): Flow<List<WeightEntry>> {
+        val calendar = Calendar.getInstance()
+        val endDate = calendar.time
+        
+        calendar.add(Calendar.MONTH, -6) // 6 months back
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        val startDate = calendar.time
+        
+        return weightDao.getWeightsBetween(startDate, endDate)
+    }
+    
     suspend fun deleteWeight(date: Date) {
         // Normalize date to start of day
         val calendar = Calendar.getInstance().apply {

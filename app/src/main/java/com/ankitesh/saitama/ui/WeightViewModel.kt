@@ -32,6 +32,18 @@ class WeightViewModel(
             initialValue = emptyMap()
         )
 
+    val sixMonthWeights: StateFlow<List<Pair<Date, Double>>> = repository.getWeightsForLastSixMonths()
+        .map { entries ->
+            entries
+                .sortedBy { it.date }
+                .map { it.date to it.weight }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
     fun saveWeight(date: Date, weight: Double) {
         viewModelScope.launch {
             repository.saveWeight(date, weight)
