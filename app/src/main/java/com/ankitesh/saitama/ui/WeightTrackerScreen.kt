@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -33,7 +34,8 @@ import java.util.*
 
 @Composable
 fun WeightTrackerScreen(
-    viewModel: WeightViewModel = viewModel()
+    viewModel: WeightViewModel = viewModel(),
+    onNavigateBack: (() -> Unit)? = null
 ) {
     val averageWeight by viewModel.averageWeight.collectAsState()
     val allWeights by viewModel.allWeights.collectAsState()
@@ -65,6 +67,20 @@ fun WeightTrackerScreen(
             .padding(horizontal = 16.dp, vertical = if (isCompactScreen) 8.dp else 12.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
+        // Back button
+        if (onNavigateBack != null) {
+            IconButton(
+                onClick = onNavigateBack,
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        }
+
         // Average Weight Section
         Card(
             modifier = Modifier

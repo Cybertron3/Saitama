@@ -44,9 +44,40 @@ class WeightViewModel(
             initialValue = emptyList()
         )
 
+    // Today's weight for homepage
+    val todayWeight: StateFlow<Double?> = repository.getTodayWeight()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null
+        )
+
+    // Last recorded weight (excluding today) for trend indicator
+    private val _lastRecordedWeight = MutableStateFlow<Double?>(null)
+    val lastRecordedWeight: StateFlow<Double?> = _lastRecordedWeight.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            _lastRecordedWeight.value = repository.getLastRecordedWeight()
+        }
+        // Update last recorded weight when weights change
+        viewModelScope.launch {
+            repository.getAllWeights().collect {
+                _lastRecordedWeight.value = repository.getLastRecordedWeight()
+            }
+        }
+    }
+
     fun saveWeight(date: Date, weight: Double) {
         viewModelScope.launch {
             repository.saveWeight(date, weight)
+        }
+    }
+
+    // Save today's weight from homepage
+    fun saveTodayWeight(weight: Double) {
+        viewModelScope.launch {
+            repository.saveTodayWeight(weight)
         }
     }
 

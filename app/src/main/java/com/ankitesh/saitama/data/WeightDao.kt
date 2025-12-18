@@ -20,4 +20,10 @@ interface WeightDao {
 
     @Query("SELECT * FROM weight_entries ORDER BY date DESC")
     fun getAllWeights(): Flow<List<WeightEntry>>
+
+    @Query("SELECT * FROM weight_entries ORDER BY date DESC LIMIT :limit")
+    fun getLastNEntries(limit: Int): Flow<List<WeightEntry>>
+
+    @Query("SELECT * FROM weight_entries WHERE date < :date ORDER BY date DESC LIMIT 1")
+    suspend fun getLastEntryBefore(date: Date): WeightEntry?
 }
