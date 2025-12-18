@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saitama App - Requirements Document v1.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #FFB300;
+            border-bottom: 3px solid #FFB300;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #FF6F00;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            font-size: 1.6em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #FFB300;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        tr:hover {
+            background: #fff3e0;
+        }
+
+        .wireframe {
+            background: #1a1a2e;
+            color: #eee;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            overflow-x: auto;
+            margin: 20px 0;
+            white-space: pre;
+        }
+
+        .code {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 15px 0;
+            border-left: 4px solid #FFB300;
+            overflow-x: auto;
+        }
+
+        .diagram {
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #FF6F00;
+            margin: 20px 0;
+        }
+
+        .status-box {
+            background: linear-gradient(135deg, #FFB300, #FF6F00);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .status-box h3 {
+            color: white;
+            margin: 0;
+        }
+
+        .toc {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+            color: #FFB300;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc li {
+            margin-bottom: 5px;
+        }
+
+        .toc a {
+            color: #FF6F00;
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .checklist {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .checklist label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .phase {
+            background: #fff;
+            border: 2px solid #FFB300;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .phase h4 {
+            color: #FFB300;
+            margin-top: 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge-new {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .badge-modified {
+            background: #2196F3;
+            color: white;
+        }
+
+        .severity-table td:first-child {
+            font-weight: 600;
+        }
+
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .orange { color: #FF6F00; }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            .wireframe {
+                background: #eee;
+                color: #333;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Saitama App - Requirements Document v1.0</h1>
+
+        <div class="toc">
+            <h3>Table of Contents</h3>
+            <ul>
+                <li><a href="#overview">1. Overview</a></li>
+                <li><a href="#architecture">2. Architecture Changes</a></li>
+                <li><a href="#homepage">3. Homepage</a></li>
+                <li><a href="#weight-tracker">4. Weight Tracker</a></li>
+                <li><a href="#cig-tracker">5. Cigarette Tracker</a></li>
+                <li><a href="#navigation">6. Navigation</a></li>
+                <li><a href="#data-models">7. Data Models</a></li>
+                <li><a href="#wireframes">8. Wireframes</a></li>
+                <li><a href="#phases">9. Implementation Phases</a></li>
+                <li><a href="#approval">10. Approval Checklist</a></li>
+            </ul>
+        </div>
+
+        <!-- OVERVIEW -->
+        <h2 id="overview">1. Overview</h2>
+
+        <h3>Current State</h3>
+        <p>Single-screen weight tracking app with calendar view, 7-day average, and 6-month trend graph.</p>
+
+        <h3>Target State</h3>
+        <p>Two-page app with:</p>
+        <ul>
+            <li><strong>Homepage:</strong> Dashboard with Weight and Cigarette tracking tiles</li>
+            <li><strong>Detail Pages:</strong> Dedicated pages for Weight and Cigarette tracking with full features</li>
+        </ul>
+
+        <h3>Tech Stack (No Changes)</h3>
+        <ul>
+            <li>Kotlin + Jetpack Compose (Material 3)</li>
+            <li>Room Database</li>
+            <li>MVVM Architecture</li>
+            <li>Kzitonwose Calendar library</li>
+        </ul>
+
+        <!-- ARCHITECTURE -->
+        <h2 id="architecture">2. Architecture Changes</h2>
+
+        <h3>Navigation Structure</h3>
+        <div class="diagram">
+┌─────────────────────────────────────────────────────────┐
+│                                                         │
+│                      HOMEPAGE                           │
+│                                                         │
+│  ┌─────────────────┐      ┌─────────────────┐          │
+│  │  WEIGHT TILE    │      │   CIG TILE      │          │
+│  │                 │      │                 │          │
+│  └────────┬────────┘      └────────┬────────┘          │
+│           │                        │                    │
+│           ▼                        ▼                    │
+│  ┌─────────────────┐      ┌─────────────────┐          │
+│  │ WEIGHT DETAIL   │      │  CIG DETAIL     │          │
+│  │     PAGE        │      │     PAGE        │          │
+│  └─────────────────┘      └─────────────────┘          │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</div>
+
+        <h3>App Launch</h3>
+        <ul>
+            <li>App opens to <strong>Homepage</strong> (not current weight screen)</li>
+            <li>No bottom navigation bar</li>
+            <li>Navigation via tile taps only</li>
+        </ul>
+
+        <!-- HOMEPAGE -->
+        <h2 id="homepage">3. Homepage</h2>
+
+        <h3>Layout</h3>
+        <ul>
+            <li>Two tiles of <strong>equal height</strong></li>
+            <li>Tiles fill the entire screen proportionally</li>
+            <li>Design should not look stretched or oversized</li>
+            <li>Consistent spacing and padding</li>
+        </ul>
+
+        <h3>Weight Tile</h3>
+
+        <h4>With Data</h4>
+        <table>
+            <tr><th>Element</th><th>Description</th></tr>
+            <tr><td>Title</td><td>"WEIGHT"</td></tr>
+            <tr><td>Navigation</td><td>">>" button (top-right)</td></tr>
+            <tr><td>Average</td><td>"7-day avg: XX.XX kg" (last 7 entries, NOT calendar days)</td></tr>
+            <tr><td>Today's Weight</td><td>Editable input field, pre-filled if exists</td></tr>
+            <tr><td>Trend Indicator</td><td>Arrow (↑/↓) + difference from last recorded entry</td></tr>
+            <tr><td>Trend Color</td><td>Theme color (gold/orange) - neutral, not green/red</td></tr>
+        </table>
+
+        <h4>Behavior</h4>
+        <ul>
+            <li><strong>Tap tile</strong> (except input area): Navigate to Weight Detail page</li>
+            <li><strong>Tap >> button:</strong> Navigate to Weight Detail page</li>
+            <li><strong>Input field:</strong> Does NOT navigate, allows weight entry</li>
+            <li><strong>Auto-save:</strong> Saves after 1 second pause in typing</li>
+            <li><strong>Auto-update:</strong> Overwrites existing entry without confirmation</li>
+            <li><strong>Validation:</strong> Only save valid numbers (0-999.99, up to 2 decimals)</li>
+        </ul>
+
+        <h4>No Data State</h4>
+        <ul>
+            <li>Message: "Let's begin your journey!"</li>
+            <li>Input field: "Enter your weight: [____] kg"</li>
+            <li>No trend indicator shown</li>
+        </ul>
+
+        <h3>Cigarette Tile</h3>
+
+        <h4>With Target Set</h4>
+        <table>
+            <tr><th>Element</th><th>Description</th></tr>
+            <tr><td>Title</td><td>"CIGARETTES"</td></tr>
+            <tr><td>Navigation</td><td>">>" button (top-right)</td></tr>
+            <tr><td>Status</td><td>"Today: X / Y" (current count / target)</td></tr>
+            <tr><td>Message</td><td>Severity-based motivational message (random from pool)</td></tr>
+            <tr><td>Counter</td><td>[-] [ count ] [+] buttons</td></tr>
+        </table>
+
+        <h4>Without Target Set</h4>
+        <table>
+            <tr><th>Element</th><th>Description</th></tr>
+            <tr><td>Title</td><td>"CIGARETTES"</td></tr>
+            <tr><td>Navigation</td><td>">>" button (top-right)</td></tr>
+            <tr><td>Nudge</td><td>"⚠️ Set your daily target →" (tappable)</td></tr>
+            <tr><td>Status</td><td>"Today: X" (no target shown)</td></tr>
+            <tr><td>Counter</td><td>[-] [ count ] [+] buttons</td></tr>
+        </table>
+
+        <h4>Behavior</h4>
+        <ul>
+            <li><strong>Tap tile</strong> (except counter): Navigate to Cig Detail page</li>
+            <li><strong>Tap >> button:</strong> Navigate to Cig Detail page</li>
+            <li><strong>Tap nudge:</strong> Navigate to Cig Detail page WITH target dialog open</li>
+            <li><strong>Counter buttons:</strong> Instant save on tap</li>
+            <li><strong>[-] button:</strong> Disabled when count = 0</li>
+            <li><strong>[+] button:</strong> Disabled when count = 99</li>
+            <li><strong>No target:</strong> Treat as target = 0 for all calculations</li>
+        </ul>
+
+        <h4>Severity Messages</h4>
+        <table class="severity-table">
+            <tr><th>Level</th><th>Condition</th><th>Example Messages</th></tr>
+            <tr><td class="green">Safe</td><td>count &lt; 50% of target</td><td>"Great start! Keep it up!", "You're doing amazing!", "Stay on track!"</td></tr>
+            <tr><td class="orange">Caution</td><td>count 50-99% of target</td><td>"You can light one, stay mindful", "Going well, be aware", "Pace yourself"</td></tr>
+            <tr><td>At Limit</td><td>count = target</td><td>"You've hit your limit!", "Hold steady!", "That's your quota for today"</td></tr>
+            <tr><td class="red">Over</td><td>count &gt; target</td><td>"Resist! You're stronger than you know", "Stay strong, tomorrow is new", "You've got this, pause and breathe"</td></tr>
+            <tr><td class="green">Zero-Zero</td><td>target = 0, count = 0</td><td>"Stay strong, you can do it!", "You're crushing it!", "Keep going!"</td></tr>
+        </table>
+
+        <!-- WEIGHT TRACKER -->
+        <h2 id="weight-tracker">4. Weight Tracker</h2>
+
+        <h3>Weight Detail Page</h3>
+        <p>Layout (Same as Current App + Back Button)</p>
+
+        <div class="diagram">┌─────────────────────────────────────┐
+│ ← Back                              │
+├─────────────────────────────────────┤
+│  ┌───────────────────────────────┐  │
+│  │     AVERAGE WEIGHT CARD       │  │
+│  │     7-day avg: 75.42 kg       │  │
+│  │     (Last 7 entries)          │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │     WEIGHT TREND GRAPH        │  │
+│  │     (Last 6 months)           │  │
+│  │     Current | Change | Range  │  │
+│  │     ~~~~~~~~~~~~~~~~~~~~~~~~  │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │     CALENDAR                  │  │
+│  │     (3-year lookback)         │  │
+│  │     Tap date to enter weight  │  │
+│  └───────────────────────────────┘  │
+└─────────────────────────────────────┘</div>
+
+        <h4>Changes from Current</h4>
+        <table>
+            <tr><th>Change</th><th>Description</th></tr>
+            <tr><td>Add back button</td><td>Top-left, navigates to Homepage</td></tr>
+            <tr><td>Update average logic</td><td>Use last 7 ENTRIES (not 7 calendar days)</td></tr>
+            <tr><td>Keep everything else</td><td>Graph, calendar, entry dialog unchanged</td></tr>
+        </table>
+
+        <h3>Weight Entry Dialog (Unchanged)</h3>
+        <ul>
+            <li>Date display</li>
+            <li>Text input field for weight</li>
+            <li>"kg" suffix</li>
+            <li>Save / Cancel buttons</li>
+            <li>Delete button (if entry exists)</li>
+        </ul>
+
+        <!-- CIGARETTE TRACKER -->
+        <h2 id="cig-tracker">5. Cigarette Tracker</h2>
+
+        <h3>Cig Detail Page</h3>
+
+        <div class="diagram">┌─────────────────────────────────────┐
+│ ← Back                              │
+├─────────────────────────────────────┤
+│  ┌───────────────────────────────┐  │
+│  │     TARGET SELECTOR           │  │
+│  │                               │  │
+│  │  0 ────●──────────────── 10   │  │
+│  │         5                     │  │
+│  │                     [Save]    │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │     CIG TREND GRAPH           │  │
+│  │     (Last 6 months)           │  │
+│  │     Y: count, X: dates        │  │
+│  │     NO stats box              │  │
+│  │     ~~~~~~~~~~~~~~~~~~~~~~~~  │  │
+│  └───────────────────────────────┘  │
+│                                     │
+│  ┌───────────────────────────────┐  │
+│  │     CALENDAR                  │  │
+│  │     (3-year lookback)         │  │
+│  │     Green: count ≤ target     │  │
+│  │     Red: count > target       │  │
+│  │     Normal: no entry          │  │
+│  └───────────────────────────────┘  │
+└─────────────────────────────────────┘</div>
+
+        <h3>Target Selector</h3>
+        <table>
+            <tr><th>Element</th><th>Description</th></tr>
+            <tr><td>Type</td><td>Slider/Seekbar</td></tr>
+            <tr><td>Range</td><td>0 to 10</td></tr>
+            <tr><td>Display</td><td>Shows current selected value</td></tr>
+            <tr><td>Save</td><td>Requires "Save" button tap to persist</td></tr>
+            <tr><td>Default</td><td>No default, user must set</td></tr>
+        </table>
+
+        <h3>Cig Trend Graph</h3>
+        <table>
+            <tr><th>Element</th><th>Description</th></tr>
+            <tr><td>Y-axis</td><td>Cigarette count</td></tr>
+            <tr><td>X-axis</td><td>Dates</td></tr>
+            <tr><td>Time range</td><td>Last 6 months</td></tr>
+            <tr><td>Stats</td><td>NONE (unlike weight graph)</td></tr>
+            <tr><td>Style</td><td>Same line + gradient as weight graph</td></tr>
+        </table>
+
+        <h3>Cig Calendar</h3>
+        <table>
+            <tr><th>Element</th><th>Description</th></tr>
+            <tr><td>Lookback</td><td>3 years</td></tr>
+            <tr><td>Navigation</td><td>Horizontal month swiping</td></tr>
+            <tr><td>Day colors</td><td><span class="green">Green</span> (≤ target), <span class="red">Red</span> (> target), Normal (no entry)</td></tr>
+            <tr><td>Day content</td><td>Show count number if entry exists</td></tr>
+            <tr><td>Tap action</td><td>Opens counter dialog</td></tr>
+        </table>
+
+        <h3>Cig Entry Dialog (Counter Style)</h3>
+        <div class="diagram">         ┌─────────────────────────────────┐
+         │                                 │
+         │       December 19, 2025         │
+         │                                 │
+         │       [-]    [ 5 ]    [+]       │
+         │                                 │
+         │              [Done]             │
+         └─────────────────────────────────┘</div>
+
+        <table>
+            <tr><th>Element</th><th>Description</th></tr>
+            <tr><td>Date</td><td>Display selected date</td></tr>
+            <tr><td>Counter</td><td>Current count value</td></tr>
+            <tr><td>[-] button</td><td>Decrement, disabled at 0</td></tr>
+            <tr><td>[+] button</td><td>Increment, disabled at 99</td></tr>
+            <tr><td>Range</td><td>0 - 99</td></tr>
+            <tr><td>Save</td><td>Instant on +/- tap</td></tr>
+            <tr><td>Done</td><td>Closes dialog</td></tr>
+        </table>
+
+        <!-- NAVIGATION -->
+        <h2 id="navigation">6. Navigation</h2>
+
+        <h3>Transitions</h3>
+        <ul>
+            <li><strong>Homepage → Detail Pages:</strong> Slide left</li>
+            <li><strong>Detail Pages → Homepage:</strong> Slide right</li>
+            <li><strong>Back button:</strong> Top-left on detail pages</li>
+        </ul>
+
+        <h3>Navigation Triggers</h3>
+        <table>
+            <tr><th>From</th><th>Action</th><th>To</th></tr>
+            <tr><td>Homepage</td><td>Tap Weight tile (non-input area)</td><td>Weight Detail</td></tr>
+            <tr><td>Homepage</td><td>Tap Weight >> button</td><td>Weight Detail</td></tr>
+            <tr><td>Homepage</td><td>Tap Cig tile (non-counter area)</td><td>Cig Detail</td></tr>
+            <tr><td>Homepage</td><td>Tap Cig >> button</td><td>Cig Detail</td></tr>
+            <tr><td>Homepage</td><td>Tap "Set target" nudge</td><td>Cig Detail + Target dialog open</td></tr>
+            <tr><td>Weight Detail</td><td>Tap back button</td><td>Homepage</td></tr>
+            <tr><td>Weight Detail</td><td>System back</td><td>Homepage</td></tr>
+            <tr><td>Cig Detail</td><td>Tap back button</td><td>Homepage</td></tr>
+            <tr><td>Cig Detail</td><td>System back</td><td>Homepage</td></tr>
+        </table>
+
+        <!-- DATA MODELS -->
+        <h2 id="data-models">7. Data Models</h2>
+
+        <h3>Existing (Modified)</h3>
+
+        <h4>WeightEntry (No Change)</h4>
+        <div class="code">@Entity(tableName = "weight_entries")
+data class WeightEntry(
+    @PrimaryKey val date: Date,
+    val weight: Double,
+    val lastUpdated: Date = Date()
+)</div>
+
+        <h4>WeightRepository <span class="badge badge-modified">Modified</span></h4>
+        <div class="highlight">
+            <strong>CHANGE:</strong> getWeightsForLastSevenDays() → getLastSevenEntries()<br><br>
+            <strong>Old:</strong> Returns entries from last 7 calendar days<br>
+            <strong>New:</strong> Returns last 7 entries regardless of date
+        </div>
+
+        <h3>New</h3>
+
+        <h4>CigEntry <span class="badge badge-new">New</span></h4>
+        <div class="code">@Entity(tableName = "cig_entries")
+data class CigEntry(
+    @PrimaryKey val date: Date,
+    val count: Int,  // 0-99
+    val lastUpdated: Date = Date()
+)</div>
+
+        <h4>CigTarget <span class="badge badge-new">New</span></h4>
+        <div class="code">@Entity(tableName = "cig_target")
+data class CigTarget(
+    @PrimaryKey val id: Int = 1,  // Single row
+    val target: Int,  // 0-10
+    val lastUpdated: Date = Date()
+)</div>
+
+        <h3>Database Changes</h3>
+        <ul>
+            <li>Add <code>cig_entries</code> table</li>
+            <li>Add <code>cig_target</code> table</li>
+            <li>Increment database version</li>
+            <li>Add migration</li>
+        </ul>
+
+        <!-- WIREFRAMES -->
+        <h2 id="wireframes">8. Wireframes</h2>
+
+        <h3>Homepage (With Data)</h3>
+        <div class="wireframe">╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │                                                    >>  │  ║
+║  │  WEIGHT                                                │  ║
+║  │  ──────────────────────────────────────────────────    │  ║
+║  │                                                        │  ║
+║  │                  7-day avg                             │  ║
+║  │                 ┌────────┐                             │  ║
+║  │                 │ 75.42  │ kg                          │  ║
+║  │                 └────────┘                             │  ║
+║  │                                                        │  ║
+║  │  Today                                                 │  ║
+║  │  ┌──────────────┐                                      │  ║
+║  │  │    72.5      │ kg                    ↓ 0.3 kg       │  ║
+║  │  └──────────────┘                                      │  ║
+║  │                                                        │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │                                                    >>  │  ║
+║  │  CIGARETTES                                            │  ║
+║  │  ──────────────────────────────────────────────────    │  ║
+║  │                                                        │  ║
+║  │                  Today                                 │  ║
+║  │                 ┌──────┐                               │  ║
+║  │                 │ 3/5  │                               │  ║
+║  │                 └──────┘                               │  ║
+║  │                                                        │  ║
+║  │        "You're doing great, stay strong!"              │  ║
+║  │                                                        │  ║
+║  │              ┌───┐ ┌───┐ ┌───┐                         │  ║
+║  │              │ - │ │ 3 │ │ + │                         │  ║
+║  │              └───┘ └───┘ └───┘                         │  ║
+║  │                                                        │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝</div>
+
+        <h3>Homepage (No Data States)</h3>
+        <div class="wireframe">╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │                                                    >>  │  ║
+║  │  WEIGHT                                                │  ║
+║  │  ──────────────────────────────────────────────────    │  ║
+║  │                                                        │  ║
+║  │            Let's begin your journey!                   │  ║
+║  │                                                        │  ║
+║  │  Enter your weight                                     │  ║
+║  │  ┌──────────────┐                                      │  ║
+║  │  │              │ kg                                   │  ║
+║  │  └──────────────┘                                      │  ║
+║  │                                                        │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │                                                    >>  │  ║
+║  │  CIGARETTES                                            │  ║
+║  │  ──────────────────────────────────────────────────    │  ║
+║  │                                                        │  ║
+║  │         ⚠️ Set your daily target →                     │  ║
+║  │                                                        │  ║
+║  │                  Today                                 │  ║
+║  │                 ┌──────┐                               │  ║
+║  │                 │  0   │                               │  ║
+║  │                 └──────┘                               │  ║
+║  │                                                        │  ║
+║  │              ┌───┐ ┌───┐ ┌───┐                         │  ║
+║  │              │ - │ │ 0 │ │ + │                         │  ║
+║  │              └───┘ └───┘ └───┘                         │  ║
+║  │                                                        │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝</div>
+
+        <h3>Weight Detail Page</h3>
+        <div class="wireframe">╔══════════════════════════════════════════════════════════════╗
+║  ← Back                                                      ║
+║                                                              ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │                                                        │  ║
+║  │                   Average Weight                       │  ║
+║  │                                                        │  ║
+║  │                 ┌──────────────┐                       │  ║
+║  │                 │    75.42    │ kg                     │  ║
+║  │                 └──────────────┘                       │  ║
+║  │                    Last 7 days                         │  ║
+║  │                                                        │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │  Weight Trend                           Last 6 months  │  ║
+║  │                                                        │  ║
+║  │   Current      Change       Range                      │  ║
+║  │   72.5 kg      -2.3 kg      70.1-77.8                  │  ║
+║  │                                                        │  ║
+║  │   78 │                                                 │  ║
+║  │      │    ·  ·                                         │  ║
+║  │   75 │  ·      ·  ·                                    │  ║
+║  │      │            ·  ·  ·                              │  ║
+║  │   72 │                    ·  ·                         │  ║
+║  │      └────────────────────────────                     │  ║
+║  │       Jun    Jul    Aug    Sep    Oct    Nov    Dec    │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │                  December 2025                         │  ║
+║  │                                                        │  ║
+║  │   Su   Mo   Tu   We   Th   Fr   Sa                     │  ║
+║  │        1    2    3    4    5    6                      │  ║
+║  │        ✓    ✓    ✓         ✓    ✓                      │  ║
+║  │                                                        │  ║
+║  │   7    8    9    10   11   12   13                     │  ║
+║  │   ✓    ✓    ✓    ✓    ✓    ✓    ✓                      │  ║
+║  │                                                        │  ║
+║  │   14   15   16   17   18  [19]  20                     │  ║
+║  │   ✓    ✓    ✓    ✓    ✓              (future)         │  ║
+║  │                                                        │  ║
+║  │   21   22   23   24   25   26   27                     │  ║
+║  │                  (future dates)                        │  ║
+║  │                                                        │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝</div>
+
+        <h3>Weight Entry Dialog</h3>
+        <div class="wireframe">         ┌─────────────────────────────────┐
+         │                                 │
+         │       December 19, 2025         │
+         │                                 │
+         │   ┌───────────────────────┐     │
+         │   │        72.5           │ kg  │
+         │   └───────────────────────┘     │
+         │                                 │
+         │                                 │
+         │   Delete      Cancel    Save    │
+         │   (red)                         │
+         │                                 │
+         └─────────────────────────────────┘</div>
+
+        <h3>Cig Detail Page</h3>
+        <div class="wireframe">╔══════════════════════════════════════════════════════════════╗
+║  ← Back                                                      ║
+║                                                              ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │                                                        │  ║
+║  │                   Daily Target                         │  ║
+║  │                                                        │  ║
+║  │     0 ─────────────●───────────────────────────── 10   │  ║
+║  │                    5                                   │  ║
+║  │                                                        │  ║
+║  │                                          ┌──────────┐  │  ║
+║  │                                          │   Save   │  │  ║
+║  │                                          └──────────┘  │  ║
+║  │                                                        │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │  Cigarette Trend                        Last 6 months  │  ║
+║  │                                                        │  ║
+║  │   10 │                                                 │  ║
+║  │      │                                                 │  ║
+║  │    8 │       ·                                         │  ║
+║  │      │    ·     ·                                      │  ║
+║  │    6 │  ·          ·                                   │  ║
+║  │      │                ·   ·                            │  ║
+║  │    4 │                       ·   ·   ·                 │  ║
+║  │      │                                                 │  ║
+║  │    2 │                                                 │  ║
+║  │      └────────────────────────────────                 │  ║
+║  │       Jun    Jul    Aug    Sep    Oct    Nov    Dec    │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+║  ┌────────────────────────────────────────────────────────┐  ║
+║  │                  December 2025                         │  ║
+║  │                                                        │  ║
+║  │   Su   Mo   Tu   We   Th   Fr   Sa                     │  ║
+║  │        1    2    3    4    5    6                      │  ║
+║  │        3    5    4    2    6    3                      │  ║
+║  │       (G)  (G)  (G)  (G)  (R)  (G)                     │  ║
+║  │                                                        │  ║
+║  │   7    8    9    10   11   12   13                     │  ║
+║  │   4    3    5    7    4    3    5                      │  ║
+║  │  (G)  (G)  (G)  (R)  (G)  (G)  (G)                     │  ║
+║  │                                                        │  ║
+║  │   14   15   16   17   18  [19]  20                     │  ║
+║  │   4    3    5    4    3              (future)          │  ║
+║  │  (G)  (G)  (G)  (G)  (G)                               │  ║
+║  │                                                        │  ║
+║  │   (G) = Green (≤ target)                               │  ║
+║  │   (R) = Red (> target)                                 │  ║
+║  │                                                        │  ║
+║  └────────────────────────────────────────────────────────┘  ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝</div>
+
+        <h3>Cig Entry Dialog</h3>
+        <div class="wireframe">         ┌─────────────────────────────────┐
+         │                                 │
+         │       December 19, 2025         │
+         │                                 │
+         │                                 │
+         │      ┌───┐  ┌─────┐  ┌───┐      │
+         │      │ - │  │  5  │  │ + │      │
+         │      └───┘  └─────┘  └───┘      │
+         │                                 │
+         │                                 │
+         │           ┌────────┐            │
+         │           │  Done  │            │
+         │           └────────┘            │
+         │                                 │
+         └─────────────────────────────────┘</div>
+
+        <h3>Cig Target Dialog (from Homepage nudge)</h3>
+        <div class="wireframe">         ┌─────────────────────────────────┐
+         │                                 │
+         │       Set Your Daily Target     │
+         │                                 │
+         │  0 ───────────●─────────── 10   │
+         │               5                 │
+         │                                 │
+         │                                 │
+         │    Cancel              Save     │
+         │                                 │
+         └─────────────────────────────────┘</div>
+
+        <!-- IMPLEMENTATION PHASES -->
+        <h2 id="phases">9. Implementation Phases</h2>
+
+        <div class="phase">
+            <h4>Phase 1: Foundation</h4>
+            <ul>
+                <li>Set up navigation component</li>
+                <li>Create Homepage scaffold</li>
+                <li>Add new database tables (CigEntry, CigTarget)</li>
+                <li>Database migration</li>
+            </ul>
+        </div>
+
+        <div class="phase">
+            <h4>Phase 2: Weight Tracker Updates</h4>
+            <ul>
+                <li>Update average calculation (7 entries vs 7 days)</li>
+                <li>Add back button to Weight Detail page</li>
+                <li>Create Weight tile for Homepage</li>
+            </ul>
+        </div>
+
+        <div class="phase">
+            <h4>Phase 3: Cigarette Tracker</h4>
+            <ul>
+                <li>Create CigDao, CigRepository, CigViewModel</li>
+                <li>Create Cig Detail page (target, graph, calendar)</li>
+                <li>Create Cig tile for Homepage</li>
+                <li>Implement severity messages</li>
+            </ul>
+        </div>
+
+        <div class="phase">
+            <h4>Phase 4: Polish</h4>
+            <ul>
+                <li>Navigation transitions (slide)</li>
+                <li>Edge cases and error handling</li>
+                <li>UI refinements</li>
+            </ul>
+        </div>
+
+        <!-- APPROVAL -->
+        <h2 id="approval">10. Approval Checklist</h2>
+
+        <div class="checklist">
+            <p>Please review and confirm:</p>
+            <label><input type="checkbox"> Homepage layout and tile design</label>
+            <label><input type="checkbox"> Weight tile behavior (auto-save, trend indicator)</label>
+            <label><input type="checkbox"> Cig tile behavior (instant save, severity messages)</label>
+            <label><input type="checkbox"> Weight Detail page (same as current + back button)</label>
+            <label><input type="checkbox"> Cig Detail page (target slider, graph, colored calendar)</label>
+            <label><input type="checkbox"> Navigation flow</label>
+            <label><input type="checkbox"> Data models</label>
+            <label><input type="checkbox"> Wireframes</label>
+        </div>
+
+        <div class="status-box">
+            <h3>Document Version: 1.0</h3>
+            <p>Created: December 19, 2025</p>
+            <p><strong>Status: Awaiting Approval</strong></p>
+        </div>
+    </div>
+</body>
+</html>
