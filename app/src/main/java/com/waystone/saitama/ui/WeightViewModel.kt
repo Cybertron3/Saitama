@@ -1,9 +1,9 @@
-package com.ankitesh.saitama.ui
+package com.waystone.saitama.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.ankitesh.saitama.data.WeightRepository
+import com.waystone.saitama.data.WeightRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*

@@ -1,4 +1,4 @@
-package com.ankitesh.saitama.data
+package com.waystone.saitama.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

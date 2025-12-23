@@ -1,4 +1,4 @@
-package com.ankitesh.saitama.data
+package com.waystone.saitama.data
 
 import android.content.Context
 import androidx.room.Database

@@ -1,4 +1,4 @@
-package com.ankitesh.saitama.data
+package com.waystone.saitama.data
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow

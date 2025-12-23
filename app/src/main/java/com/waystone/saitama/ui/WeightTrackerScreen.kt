@@ -1,4 +1,4 @@
-package com.ankitesh.saitama.ui
+package com.waystone.saitama.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -229,9 +229,9 @@ fun Day(
                     imageVector = Icons.Default.Check,
                     contentDescription = "Weight recorded",
                     modifier = Modifier.size(10.dp),
-                    tint = if (isSelected) MaterialTheme.colorScheme.onPrimary 
-                           else if (isDarkTheme) Color(0xFFFFB300) // Brighter yellow in dark mode
-                           else Color(0xFFFF6F00)  // Orange accent in light mode
+                    tint = if (isSelected) MaterialTheme.colorScheme.onPrimary
+                           else if (isDarkTheme) Color(0xFF00E5CC) // Bright teal in dark mode
+                           else Color(0xFF00BFA5)  // Teal accent in light mode
                 )
             }
         }

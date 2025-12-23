@@ -14,8 +14,8 @@
     <color name="colorSecondaryVariant">#018786</color>
     <color name="colorOnSecondary">#000000</color>
     
-    <!-- One Punch Man Theme Colors -->
-    <color name="saitama_yellow">#FFD700</color>
-    <color name="saitama_red">#DC143C</color>
-    <color name="saitama_white">#FFFFFF</color>
+    <!-- App Theme Colors -->
+    <color name="primary_teal">#00D9C4</color>
+    <color name="primary_dark">#1A2332</color>
+    <color name="app_white">#FFFFFF</color>
 </resources>

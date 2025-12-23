@@ -17,3 +17,7 @@ local.properties
 #/distribution
 #/distribution/*
 #distribution/*
+
+# Signing
+keystore.properties
+*.jks

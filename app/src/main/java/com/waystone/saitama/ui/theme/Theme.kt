@@ -1,4 +1,4 @@
-package com.ankitesh.saitama.ui.theme
+package com.waystone.saitama.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -17,38 +17,37 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Yellow40,  // Using the deeper yellow for dark mode
-    secondary = YellowGrey40,
-    tertiary = Orange40,
-    background = Color(0xFF121212),  // Material dark background
-    surface = Color(0xFF1E1E1E),
-    onPrimary = Color(0xFF3E2723),
+    primary = Teal40,
+    secondary = TealGrey40,
+    tertiary = Cyan40,
+    background = PrimaryDark,  // Dark navy from icon
+    surface = Color(0xFF1E2A3A),
+    onPrimary = Color(0xFF003733),
     onSecondary = Color.White,
     onBackground = Color(0xFFE0E0E0),
     onSurface = Color(0xFFE0E0E0),
-    primaryContainer = Color(0xFF524300),  // Dark yellow container
-    onPrimaryContainer = Color(0xFFFFE082)  // Light yellow text
+    primaryContainer = Color(0xFF004D47),
+    onPrimaryContainer = Color(0xFF80DEEA)
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Yellow40,
-    secondary = YellowGrey40,
-    tertiary = Orange40,
-    background = HeroWhite,
-    surface = Color(0xFFFFF8E1),
+    primary = Teal40,
+    secondary = TealGrey40,
+    tertiary = Cyan40,
+    background = AppWhite,
+    surface = Color(0xFFE0F7FA),
     onPrimary = Color.White,
     onSecondary = Color.White,
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
-    primaryContainer = SaitamaYellow,
-    onPrimaryContainer = Color(0xFF3E2723)
+    primaryContainer = PrimaryTeal,
+    onPrimaryContainer = Color(0xFF003733)
 )
 
 @Composable
-fun SaitamaTheme(
+fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = false,  // Disabled to use Saitama theme colors
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

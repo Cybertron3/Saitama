@@ -1,4 +1,4 @@
-package com.ankitesh.saitama.ui
+package com.waystone.saitama.ui
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -226,9 +226,9 @@ private fun SimpleWeightChart(
     isDarkTheme: Boolean,
     modifier: Modifier = Modifier
 ) {
-    val lineColor = if (isDarkTheme) Color(0xFFFFB300) else Color(0xFFFF6F00)
+    val lineColor = if (isDarkTheme) Color(0xFF00E5CC) else Color(0xFF00BFA5)
     val gridColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
-    val dotColor = if (isDarkTheme) Color(0xFFFFD700) else Color(0xFFFF6F00)
+    val dotColor = if (isDarkTheme) Color(0xFF00D9C4) else Color(0xFF00BFA5)
 
     Canvas(modifier = modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
         if (weightData.size < 2) return@Canvas
